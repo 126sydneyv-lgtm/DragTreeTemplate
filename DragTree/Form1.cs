@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DragTree 
+namespace DragTree
 {
     public partial class Form1 : Form
     {
@@ -17,7 +17,14 @@ namespace DragTree
         // TODO - create a Stopwatch object called stopwatch 
         int currentRow = 1;
         Stopwatch stopwatch = new Stopwatch();
+        public Form1()
+        {
+            InitializeComponent();
 
+            lightTimer = new Timer();
+            lightTimer.Interval = 400; // 400 ms
+            lightTimer.Tick += lightTimer_tick;
+        }
         // TODO - create a timer on the form called lightTimer (interval 400ms)
         // TODO - create the tick event for the lightTimer
         private void lightTimer_tick(object sender, EventArgs e)
@@ -25,39 +32,56 @@ namespace DragTree
             // place the following comments in the lighTimer tick event
             // TODO - create a switch block that checks currentRow. In each case
             // it will light up the appropriate lights, (labels). 
-            currentRow++; 
             switch (currentRow)
             {
-                default:
-                case1: row1col1.BackColor = Color.Yellow;
+                case 1:
+                    row1col1.BackColor = Color.Yellow;
                     row1col2.BackColor = Color.Yellow;
                     break;
-                case2: row2col2.BackColor = Color.Yellow;
+                case 2:
+                    row2col2.BackColor = Color.Yellow;
                     row2col1.BackColor = Color.Yellow;
                     break;
-                case3: row3col1.BackColor = Color.Yellow;
+                case 3:
+                    row3col1.BackColor = Color.Yellow;
                     row3col2.BackColor = Color.Yellow;
                     break;
-                case4: row4col1.BackColor = Color.Green;
+                case 4:
+                    row4col1.BackColor = Color.Green;
                     row4col2.BackColor = Color.Green;
+                    lightTimer.Stop();
+                    stopwatch.Start();
                     break;
             }
+            currentRow++;
         }
 
-        
+
 
         // TODO - increment the currentRow value by 1
 
-        public Form1()
-        {
-            InitializeComponent();
-        }
+
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            // TODO - start the timer
-            stopwatch.Start();
-        
+            // Reset everything before starting
+            currentRow = 1;
+            stopwatch.Reset();
+
+            // Reset all lights to gray
+            row1col1.BackColor = Color.DimGray;
+            row1col2.BackColor = Color.DimGray;
+            row2col1.BackColor = Color.DimGray;
+            row2col2.BackColor = Color.DimGray;
+            row3col1.BackColor = Color.DimGray;
+            row3col2.BackColor = Color.DimGray;
+            row4col1.BackColor = Color.DarkOliveGreen;
+            row4col2.BackColor = Color.DarkOliveGreen;
+
+            // Start the timer
+            lightTimer.Start();
+
+
         }
 
         private void goButton_Click(object sender, EventArgs e)
